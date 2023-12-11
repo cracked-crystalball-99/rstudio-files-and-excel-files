@@ -8,20 +8,20 @@ library("xlsx")
 ## 2. Data Downloading or Reading
 
 # 2.1.Yahoo Finance
-getSymbols(".AX",src="yahoo",from="2019-10-01",to="2022-09-30")
+getSymbols("JLG.AX",src="yahoo",from="2019-10-01",to="2022-09-30")
 
 # 2.2. Google Finance
 # No Adjusted Close Prices
-# getSymbols(".AX",src="google",from="2016-01-01",to="2017-01-01")
+# getSymbols("JLG.AX",src="google",from="2016-01-01",to="2017-01-01")
 
 # 2.3. Data Reading 
 
 # NOT APPLICABLE
 
 # 2.4. Technical Analysis Charts
-lineChart(.AX,theme=chartTheme("white"))
-barChart(.AX,theme=chartTheme("white"))
-candleChart(.AX,theme=chartTheme("white"))
+lineChart(JLG.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
+candleChart(JLG.AX,theme=chartTheme("white"))
 
 # 3. Stock Technical Indicators 
 
@@ -30,119 +30,121 @@ candleChart(.AX,theme=chartTheme("white"))
 # 3.1.1. Moving Averages MA, Simple Moving Averages SMA(5 & 21), Exponential Moving Averages EMA(5 & 21)
 
 # Simple Moving Average
-sma5 <- SMA(Cl(.AX),n=5)
-sma21 <- SMA(Cl(.AX),n=21)
+sma5 <- SMA(Cl(JLG.AX),n=5)
+sma21 <- SMA(Cl(JLG.AX),n=21)
 
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addSMA(n=5,col="darkblue")
 addSMA(n=21,col="darkred")
 legend("bottomright",col=c("darkblue","darkred"),lty=1,legend=c("SMA(5)","SMA(21)"),cex=0.6)
 
 # Manual Chart
-plot(Cl(.AX),main="Simple Moving Averages SMA(5 & 21)",ylab="Prices",xlab="Date")
+plot(Cl(JLG.AX),main="Simple Moving Averages SMA(5 & 21)",ylab="Prices",xlab="Date")
 lines(sma5,col="darkblue")
 lines(sma21,col="darkred")
-legend("bottomright",col=c("black","darkblue","darkred"),lty=1,legend=c(".AX","SMA(5)","SMA(21)"),cex=0.6)
+legend("bottomright",col=c("black","darkblue","darkred"),lty=1,legend=c("JLG.AX","SMA(5)","SMA(21)"),cex=0.6)
 
 
 # Exponential Moving Average
-ema5 <- EMA(Cl(.AX),n=5)
-ema21 <- EMA(Cl(.AX),n=21)
+ema5 <- EMA(Cl(JLG.AX),n=5)
+ema21 <- EMA(Cl(JLG.AX),n=21)
 
-# Exponential Moving Average (Tony: 50, 200)
-ema50 <- EMA(Cl(.AX),n=50)
-ema200 <- EMA(Cl(.AX),n=200)
+
+
+
+
 
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addEMA(n=5,col="darkblue")
 addEMA(n=21,col="darkred")
 legend("bottomright",col=c("darkblue","darkred"),lty=1,legend=c("EMA(5)","EMA(21)"),cex=0.6)
 
-# Technical Analysis Chart (Tony: 21, 50)
-barChart(.AX,theme=chartTheme("white"))
-addEMA(n=21,col="darkblue")
-addEMA(n=50,col="darkred")
-legend("bottomright",col=c("darkblue","darkred"),lty=1,legend=c("EMA(21)","EMA(50)"),cex=0.6)
+
+
+
+
+
+
 
 
 # Manual Chart 
-plot(y=coredata(.AX$Close),x=coredata(index(.AX)),type="l",main="Simple Moving Averages SMA(5 & 21)",ylab="Prices",xlab="Date")
+plot(y=coredata(JLG.AX$Close),x=coredata(index(JLG.AX)),type="l",main="Simple Moving Averages SMA(5 & 21)",ylab="Prices",xlab="Date")
 lines(y=coredata(sma5),x=coredata(index(sma5)),col="darkblue")
 lines(y=coredata(sma21),x=coredata(index(sma21)),col="darkred")
-legend("bottomright",col=c("black","darkblue","darkred"),lty=1,legend=c(".AX","SMA(5)","SMA(21)"),cex=0.6)
+legend("bottomright",col=c("black","darkblue","darkred"),lty=1,legend=c("JLG.AX","SMA(5)","SMA(21)"),cex=0.6)
 
 
 # 3.1.2. Bollinger Bands BB(20,2)
-bb <- BBands(HLC(.AX),n=20,sd=2)
+bb <- BBands(HLC(JLG.AX),n=20,sd=2)
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addBBands(n=20,sd=2)
 # Manual Chart
-plot(Cl(.AX),main="Bollinger Bands BB(20,2)")
+plot(Cl(JLG.AX),main="Bollinger Bands BB(20,2)")
 # Lower and Upper Bands
 lines(bb[,1],col="darkred",lty=2)
 lines(bb[,3],col="darkred",lty=2)
 # Middle Band
 lines(bb[,2],col="darkgray",lty=2)
-legend("bottomright",col=c("black","darkred","darkgray","darkred"),lty=c(1,2,2,2),legend=c(".AX","Lower BB(20,2)","Middle BB(20,2)","Upper BB(20,2)"),cex=0.6)
+legend("bottomright",col=c("black","darkred","darkgray","darkred"),lty=c(1,2,2,2),legend=c("JLG.AX","Lower BB(20,2)","Middle BB(20,2)","Upper BB(20,2)"),cex=0.6)
 
 # 3.1.3. Parabolic Stop and Reverse SAR(0.02,0.2)
-sar <- SAR(cbind(Hi(.AX),Lo(.AX)),accel=c(0.02, 0.2))
+sar <- SAR(cbind(Hi(JLG.AX),Lo(JLG.AX)),accel=c(0.02, 0.2))
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addSAR(accel=c(0.02, 0.2))
 # Manual Chart
-plot(Cl(.AX),main="Parabolic Stop and Reverse SAR(0.02,0.2)")
+plot(Cl(JLG.AX),main="Parabolic Stop and Reverse SAR(0.02,0.2)")
 points(sar,col="darkblue")
-legend("bottomright",col=c("black","darkblue"),lty=1,legend=c(".AX","SAR(0.02,0.2)"),cex=0.6)
+legend("bottomright",col=c("black","darkblue"),lty=1,legend=c("JLG.AX","SAR(0.02,0.2)"),cex=0.6)
 
 # 3.2. Leading Stock Technical Indicators
 
 # 3.2.1. Average Directional Movement Index ADX(14)
-adx <- ADX(HLC(.AX),n=14)
+adx <- ADX(HLC(JLG.AX),n=14)
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addADX(n=14)
 legend("right",col=c("blue","green","red"),lty=1,legend=c("ADX(14)","DI(14)+","DI(14)-"),cex=0.6)
 
 # 3.2.2. Commodity Channel Index CCI(20,0.015)
-cci <- CCI(HLC(.AX),n=20,c=0.015)
+cci <- CCI(HLC(JLG.AX),n=20,c=0.015)
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addCCI(n=20,c=0.015)
 
 # 3.2.3. Moving Averages Covergence/Divergence MACD(12,26,9)
-macd <- MACD(Cl(.AX),nFast=12,nSlow=26,nSig=9)
+macd <- MACD(Cl(JLG.AX),nFast=12,nSlow=26,nSig=9)
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addMACD(fast=12,slow=26,signal=9)
 
 # 3.2.4. Rate Of Change ROC(21)
-roc <- ROC(.AX,n=21)
+roc <- ROC(JLG.AX,n=21)
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addROC(n=21)
 legend("right",col="red",lty=1,legend="ROC(21)",cex=0.6)
 
 # 3.2.5. Relative Strength Index RSI(14)
-rsi <- RSI(Cl(.AX),n=14)
+rsi <- RSI(Cl(JLG.AX),n=14)
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addRSI(n=14)
 
 # 3.2.6. Stochastic Momentum Index SMI(13,2,25,9)
-smi <- SMI(HLC(.AX),n=13,nFast=2,nSlow=25,nSig=9)
+smi <- SMI(HLC(JLG.AX),n=13,nFast=2,nSlow=25,nSig=9)
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addSMI(n=13,fast=2,slow=25,signal=9)
 
 # 3.2.7. Williams %R(14)
-wpr <- WPR(HLC(.AX),n=14)
+wpr <- WPR(HLC(JLG.AX),n=14)
 colnames(wpr) <- "wpr"
 # Technical Analysis Chart
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addWPR(n=14)
 
 # 4. Stock Trading Signals
@@ -152,25 +154,25 @@ addWPR(n=14)
 # 4.1.1. Moving Averages MA, Simple Moving Averages SMA(5 & 21), Exponential Moving Averages EMA(5 & 21) Trading Signals
 
 # Simple Moving Averages SMA(5 & 21) Price Crossover Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addSMA(n=5,col="darkblue")
 addSMA(n=21,col="darkred")
 legend("bottomright",col=c("darkblue","darkred"),lty=1,legend=c("SMA(5)","SMA(21)"),cex=0.6)
 # Price Crossover Trading Signals
-sma5tr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sma5)&Cl(.AX)>sma5,1,ifelse(Lag(Cl(.AX))>Lag(sma5)&Cl(.AX)<sma5,-1,0)))
+sma5tr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sma5)&Cl(JLG.AX)>sma5,1,ifelse(Lag(Cl(JLG.AX))>Lag(sma5)&Cl(JLG.AX)<sma5,-1,0)))
 sma5tr[is.na(sma5tr)] <- 0
-sma21tr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sma21)&Cl(.AX)>sma21,1,ifelse(Lag(Cl(.AX))>Lag(sma21)&Cl(.AX)<sma21,-1,0)))
+sma21tr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sma21)&Cl(JLG.AX)>sma21,1,ifelse(Lag(Cl(JLG.AX))>Lag(sma21)&Cl(JLG.AX)<sma21,-1,0)))
 sma21tr[is.na(sma21tr)] <- 0
 
 # Exponential Moving Averages EMA (5 & 21) Price Crossover Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addEMA(n=5,col="darkblue")
 addEMA(n=21,col="darkred")
 legend("bottomright",col=c("darkblue","darkred"),lty=1,legend=c("EMA(5)","EMA(21)"),cex=0.6)
 # Price Crossover Trading Signals
-ema5tr <- Lag(ifelse(Lag(Cl(.AX))<Lag(ema5)&Cl(.AX)>ema5,1,ifelse(Lag(Cl(.AX))>Lag(ema5)&Cl(.AX)<ema5,-1,0)))
+ema5tr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(ema5)&Cl(JLG.AX)>ema5,1,ifelse(Lag(Cl(JLG.AX))>Lag(ema5)&Cl(JLG.AX)<ema5,-1,0)))
 ema5tr[is.na(ema5tr)] <- 0
-ema21tr <- Lag(ifelse(Lag(Cl(.AX))<Lag(ema21)&Cl(.AX)>ema21,1,ifelse(Lag(Cl(.AX))>Lag(ema21)&Cl(.AX)<ema21,-1,0)))
+ema21tr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(ema21)&Cl(JLG.AX)>ema21,1,ifelse(Lag(Cl(JLG.AX))>Lag(ema21)&Cl(JLG.AX)<ema21,-1,0)))
 ema21tr[is.na(ema21tr)] <- 0
 
 # Simple & Exponential Moving Averages SMA(5 & 21) & EMA(5 & 21) Double Crossover Trading Signals
@@ -181,21 +183,21 @@ ematr <- Lag(ifelse(Lag(ema5)<Lag(ema21)&ema5>ema21,1,ifelse(Lag(ema5)>Lag(ema21
 ematr[is.na(ematr)] <- 0
 
 # 4.1.2. Bollinger Bands BB(20,2) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addBBands(n=20,sd=2)
 # Bands Crossover Trading Signals
-bbtr <- Lag(ifelse(Lag(Cl(.AX))<Lag(bb[,1])&Cl(.AX)>bb[,1],1,ifelse(Lag(Cl(.AX))<Lag(bb[,3])&Cl(.AX)>bb[,3],-1,0)))
+bbtr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(bb[,1])&Cl(JLG.AX)>bb[,1],1,ifelse(Lag(Cl(JLG.AX))<Lag(bb[,3])&Cl(JLG.AX)>bb[,3],-1,0)))
 bbtr[is.na(bbtr)] <- 0
 
 # 4.1.3. Parabolic Stop And Reverse SAR(0.02,0.2) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addSAR(accel=c(0.02, 0.2))
 # Stop And Reverse Trading Signals
-sartr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sar)&Cl(.AX)>sar,1,ifelse(Lag(Cl(.AX))>Lag(sar)&Cl(.AX)<sar,-1,0)))
+sartr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sar)&Cl(JLG.AX)>sar,1,ifelse(Lag(Cl(JLG.AX))>Lag(sar)&Cl(JLG.AX)<sar,-1,0)))
 sartr[is.na(sartr)] <- 0
 
 # 4.1.4. Average Directional Movement Index ADX(14) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addADX(n=14)
 legend("right",col=c("blue","green","red"),lty=1,legend=c("ADX(14)","DI(14)+","DI(14)-"),cex=0.6)
 # Band and Double Crossover Trading Signals
@@ -203,14 +205,14 @@ adxtr <- Lag(ifelse(Lag(adx[,1])<Lag(adx[,2])&adx[,1]>adx[,2]&adx[,4]>20,1,ifels
 adxtr[is.na(adxtr)] <- 0
 
 # 4.1.5. Commodity Channel Index CCI(20,0.015) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addCCI(n=20,c=0.015)
 # Bands Crossover Trading Signals
 ccitr <- Lag(ifelse(Lag(cci)<(-100)&cci>(-100),1,ifelse(Lag(cci)<100&cci>100,-1,0)))
 ccitr[is.na(ccitr)] <- 0
 
 # 4.1.6. Moving Averages Covergence/Divergence MACD(12,26,9) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addMACD(fast=12,slow=26,signal=9)
 # Signal and Centerline Crossover Trading Signals
 smacdtr <- Lag(ifelse(Lag(macd[,1])<Lag(macd[,2])&macd[,1]>macd[,2],1,ifelse(Lag(macd[,1])>Lag(macd[,2])&macd[,1]<macd[,2],-1,0)))
@@ -219,7 +221,7 @@ cmacdtr <- Lag(ifelse(Lag(macd[,1])<0&macd[,1]>0,1,ifelse(Lag(macd[,1])>0&macd[,
 cmacdtr[is.na(cmacdtr)] <- 0
 
 # 4.1.7. Rate Of Change ROC(21) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addROC(n=21)
 legend("right",col="red",lty=1,legend="ROC(21)",cex=0.6)
 # Bands Crossover Trading Signals
@@ -227,21 +229,21 @@ roctr <- Lag(ifelse(Lag(roc[,4])<(-0.05)&roc[,4]>(-0.05),1,ifelse(Lag(roc[,4])<0
 roctr[is.na(roctr)] <- 0
 
 # 4.1.8. Relative Strength Index RSI(14) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addRSI(n=14)
 # Bands Crossover Trading Signals
 rsitr <- Lag(ifelse(Lag(rsi)<30&rsi>30,1,ifelse(Lag(rsi)<70&rsi>70,-1,0)))
 rsitr[is.na(rsitr)] <- 0
 
 # 4.1.9. Stochastic Momentum Index SMI(13,2,25,9) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addSMI(n=13,fast=2,slow=25,signal=9)
 # Signal Crossover Trading Signals
 smitr <- Lag(ifelse(Lag(smi[,1])<Lag(smi[,2])&smi[,1]>smi[,2],1,ifelse(Lag(smi[,1])>Lag(smi[,2])&smi[,1]<smi[,2],-1,0)))
 smitr[is.na(smitr)] <- 0
 
 # 4.1.10. Williams %R(14) Trading Signals
-barChart(.AX,theme=chartTheme("white"))
+barChart(JLG.AX,theme=chartTheme("white"))
 addWPR(n=14)
 # Bands Crossover Trading Signals
 wprtr <- Lag(ifelse(Lag(wpr)>0.80&wpr<0.80,1,ifelse(Lag(wpr)>0.20&wpr<0.20,-1,0)))
@@ -250,48 +252,48 @@ wprtr[is.na(wprtr)] <- 0
 # 4.2. Multiple Indicators Trading Signals
 
 # 4.2.1. Commodity Channel Index CCI(20,0.015) and Simple Moving Average SMA(5) Trading Signals
-lineChart(.AX,theme=chartTheme("white"))
+lineChart(JLG.AX,theme=chartTheme("white"))
 addCCI(n=20,c=0.015)
 addSMA(n=5,col="darkblue")
-legend("right",col=c("green","darkblue"),lty=1,legend=c(".AX","SMA5"),cex=0.6)
+legend("right",col=c("green","darkblue"),lty=1,legend=c("JLG.AX","SMA5"),cex=0.6)
 # Price Crossover and Bands Crossover Confirmation Trading Signals 
-ccismatr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sma5)&Cl(.AX)>sma5&cci<(-100),1,ifelse(Lag(Cl(.AX))>Lag(sma5)&Cl(.AX)<sma5&cci>100,-1,0)))
+ccismatr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sma5)&Cl(JLG.AX)>sma5&cci<(-100),1,ifelse(Lag(Cl(JLG.AX))>Lag(sma5)&Cl(JLG.AX)<sma5&cci>100,-1,0)))
 ccismatr[is.na(ccismatr)] <- 0
 
 # 4.2.2. Rate Of Change ROC(21) and Simple Moving Average SMA(5) Trading Signals
-lineChart(.AX,theme=chartTheme("white"))
+lineChart(JLG.AX,theme=chartTheme("white"))
 addROC(n=21)
 addSMA(n=5,col="darkblue")
-legend("right",col=c("green","darkblue","red"),lty=1,legend=c(".AX","SMA(5)","ROC(21)"),cex=0.6)
+legend("right",col=c("green","darkblue","red"),lty=1,legend=c("JLG.AX","SMA(5)","ROC(21)"),cex=0.6)
 # Price Crossover and Bands Crossover Confirmation Trading Signals 
-rocsmatr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sma5)&Cl(.AX)>sma5&roc[,4]<(-0.05),1,ifelse(Lag(Cl(.AX))>Lag(sma5)&Cl(.AX)<sma5&roc[,4]>0.05,-1,0)))
+rocsmatr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sma5)&Cl(JLG.AX)>sma5&roc[,4]<(-0.05),1,ifelse(Lag(Cl(JLG.AX))>Lag(sma5)&Cl(JLG.AX)<sma5&roc[,4]>0.05,-1,0)))
 rocsmatr[is.na(rocsmatr)] <- 0
 
 # 4.2.3. Relative Strength Index RSI(14) and Simple Moving Average SMA(5) Trading Signals
-lineChart(.AX,theme=chartTheme("white"))
+lineChart(JLG.AX,theme=chartTheme("white"))
 addRSI(n=14)
 addSMA(n=5,col="darkblue")
-legend("right",col=c("green","darkblue"),lty=1,legend=c(".AX","SMA(5)"),cex=0.6)
+legend("right",col=c("green","darkblue"),lty=1,legend=c("JLG.AX","SMA(5)"),cex=0.6)
 # Price Crossover and Bands Crossover Confirmation Trading Signals 
-rsismatr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sma5)&Cl(.AX)>sma5&rsi<30,1,ifelse(Lag(Cl(.AX))>Lag(sma5)&Cl(.AX)<sma5&rsi>70,-1,0)))
+rsismatr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sma5)&Cl(JLG.AX)>sma5&rsi<30,1,ifelse(Lag(Cl(JLG.AX))>Lag(sma5)&Cl(JLG.AX)<sma5&rsi>70,-1,0)))
 rsismatr[is.na(rsismatr)] <- 0
 
 # 4.2.4. Stochastic Momentum Index SMI(13,2,25,9) and Simple Moving Average SMA(5) Trading Signals
-lineChart(.AX,theme=chartTheme("white"))
+lineChart(JLG.AX,theme=chartTheme("white"))
 addSMI(n=13,fast=2,slow=25,signal=9)
 addSMA(n=5,col="darkblue")
-legend("right",col=c("green","darkblue"),lty=1,legend=c(".AX","SMA(5)"),cex=0.6)
+legend("right",col=c("green","darkblue"),lty=1,legend=c("JLG.AX","SMA(5)"),cex=0.6)
 # Price Crossover and Bands Crossover Confirmation Trading Signals 
-smismatr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sma5)&Cl(.AX)>sma5&smi[,1]<(-40),1,ifelse(Lag(Cl(.AX))>Lag(sma5)&Cl(.AX)<sma5&smi[,1]>40,-1,0)))
+smismatr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sma5)&Cl(JLG.AX)>sma5&smi[,1]<(-40),1,ifelse(Lag(Cl(JLG.AX))>Lag(sma5)&Cl(JLG.AX)<sma5&smi[,1]>40,-1,0)))
 smismatr[is.na(smismatr)] <- 0
 
 # 4.2.5. Williams %R(14) and Simple Moving Average SMA(5) Trading Signals
-lineChart(.AX,theme=chartTheme("white"))
+lineChart(JLG.AX,theme=chartTheme("white"))
 addWPR(n=14)
 addSMA(n=5,col="darkblue")
-legend("right",col=c("green","darkblue"),lty=1,legend=c(".AX","SMA(5)"),cex=0.6)
+legend("right",col=c("green","darkblue"),lty=1,legend=c("JLG.AX","SMA(5)"),cex=0.6)
 # Price Crossover and Bands Crossover Confirmation Trading Signals 
-wprsmatr <- Lag(ifelse(Lag(Cl(.AX))<Lag(sma5)&Cl(.AX)>sma5&wpr>0.80,1,ifelse(Lag(Cl(.AX))>Lag(sma5)&Cl(.AX)<sma5&wpr<0.20,-1,0)))
+wprsmatr <- Lag(ifelse(Lag(Cl(JLG.AX))<Lag(sma5)&Cl(JLG.AX)>sma5&wpr>0.80,1,ifelse(Lag(Cl(JLG.AX))>Lag(sma5)&Cl(JLG.AX)<sma5&wpr<0.20,-1,0)))
 wprsmatr[is.na(wprsmatr)] <- 0
 
 # 5. Stock Trading Strategies
@@ -302,15 +304,15 @@ wprsmatr[is.na(wprsmatr)] <- 0
 
 # Price Crossover Trading Strategies
 sma5pos <- ifelse(sma5tr>1,0,1)
-for(i in 1:length(Cl(.AX))){sma5pos[i] <- ifelse(sma5tr[i]==1,1,ifelse(sma5tr[i]==-1,0,sma5pos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){sma5pos[i] <- ifelse(sma5tr[i]==1,1,ifelse(sma5tr[i]==-1,0,sma5pos[i-1]))}
 sma5pos[is.na(sma5pos)] <- 1
-sma5poscomp <- cbind(Cl(.AX),sma5,sma5tr,sma5pos)
+sma5poscomp <- cbind(Cl(JLG.AX),sma5,sma5tr,sma5pos)
 colnames(sma5poscomp) <-c("Close",'sma5',"sma5tr","sma5pos")
 View(sma5poscomp)
 sma21pos <- ifelse(sma21tr>1,0,1)
-for(i in 1:length(Cl(.AX))){sma21pos[i] <- ifelse(sma21tr[i]==1,1,ifelse(sma21tr[i]==-1,0,sma21pos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){sma21pos[i] <- ifelse(sma21tr[i]==1,1,ifelse(sma21tr[i]==-1,0,sma21pos[i-1]))}
 sma21pos[is.na(sma21pos)] <- 1
-sma21poscomp <- cbind(Cl(.AX),sma21,sma21tr,sma21pos)
+sma21poscomp <- cbind(Cl(JLG.AX),sma21,sma21tr,sma21pos)
 colnames(sma21poscomp) <-c("Close",'sma21',"sma21tr","sma21pos")
 View(sma21poscomp)
 
@@ -318,15 +320,15 @@ View(sma21poscomp)
 
 # Price Crossover Trading Strategies
 ema5pos <- ifelse(ema5tr>1,0,1)
-for(i in 1:length(Cl(.AX))){ema5pos[i] <- ifelse(ema5tr[i]==1,1,ifelse(ema5tr[i]==-1,0,ema5pos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){ema5pos[i] <- ifelse(ema5tr[i]==1,1,ifelse(ema5tr[i]==-1,0,ema5pos[i-1]))}
 ema5pos[is.na(ema5pos)] <- 1
-ema5poscomp <- cbind(Cl(.AX),ema5,ema5tr,ema5pos)
+ema5poscomp <- cbind(Cl(JLG.AX),ema5,ema5tr,ema5pos)
 colnames(ema5poscomp) <-c("Close",'ema5',"ema5tr","ema5pos")
 View(ema5poscomp)
 ema21pos <- ifelse(ema21tr>1,0,1)
-for(i in 1:length(Cl(.AX))){ema21pos[i] <- ifelse(ema21tr[i]==1,1,ifelse(ema21tr[i]==-1,0,ema21pos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){ema21pos[i] <- ifelse(ema21tr[i]==1,1,ifelse(ema21tr[i]==-1,0,ema21pos[i-1]))}
 ema21pos[is.na(ema21pos)] <- 1
-ema21poscomp <- cbind(Cl(.AX),ema21,ema21tr,ema21pos)
+ema21poscomp <- cbind(Cl(JLG.AX),ema21,ema21tr,ema21pos)
 colnames(ema21poscomp) <-c("Close",'ema21',"ema21tr","ema21pos")
 View(ema21poscomp)
 
@@ -334,13 +336,13 @@ View(ema21poscomp)
 
 # Double Crossover Trading Strategies
 smapos <- ifelse(smatr>1,0,1)
-for(i in 1:length(Cl(.AX))){smapos[i] <- ifelse(smatr[i]==1,1,ifelse(smatr[i]==-1,0,smapos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){smapos[i] <- ifelse(smatr[i]==1,1,ifelse(smatr[i]==-1,0,smapos[i-1]))}
 smapos[is.na(smapos)] <- 1
 smaposcomp <- cbind(sma5,sma21,smatr,smapos)
 colnames(smaposcomp) <-c("sma5",'sma21',"smatr","smapos")
 View(smaposcomp)
 emapos <- ifelse(ematr>1,0,1)
-for(i in 1:length(Cl(.AX))){emapos[i] <- ifelse(ematr[i]==1,1,ifelse(ematr[i]==-1,0,emapos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){emapos[i] <- ifelse(ematr[i]==1,1,ifelse(ematr[i]==-1,0,emapos[i-1]))}
 emapos[is.na(emapos)] <- 1
 emaposcomp <- cbind(ema5,ema21,ematr,emapos)
 colnames(emaposcomp) <-c("ema5",'ema21',"ematr","emapos")
@@ -349,25 +351,25 @@ View(emaposcomp)
 # 5.2. Bollinger Bands BB(20,2) Trading Strategy
 # Bands Crossover Trading Strategy
 bbpos <- ifelse(bbtr>1,0,1)
-for(i in 1:length(Cl(.AX))){bbpos[i] <- ifelse(bbtr[i]==1,1,ifelse(bbtr[i]==-1,0,bbpos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){bbpos[i] <- ifelse(bbtr[i]==1,1,ifelse(bbtr[i]==-1,0,bbpos[i-1]))}
 bbpos[is.na(bbpos)] <- 1
-bbposcomp <- cbind(Cl(.AX),bb[,1],bb[,3],bbtr,bbpos)
+bbposcomp <- cbind(Cl(JLG.AX),bb[,1],bb[,3],bbtr,bbpos)
 colnames(bbposcomp) <-c("Close",'lower',"upper","bbtr","bbpos")
 View(bbposcomp)
 
 # 5.3. Parabolic Stop And Reverse SAR(0.02,0.2) Trading Strategy
 # Stop And Reverse Trading Strategy
 sarpos <- ifelse(sartr>1,0,1)
-for(i in 1:length(Cl(.AX))){sarpos[i] <- ifelse(sartr[i]==1,1,ifelse(sartr[i]==-1,0,sarpos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){sarpos[i] <- ifelse(sartr[i]==1,1,ifelse(sartr[i]==-1,0,sarpos[i-1]))}
 sarpos[is.na(sarpos)] <- 1
-sarposcomp <- cbind(Cl(.AX),sar,sartr,sarpos)
+sarposcomp <- cbind(Cl(JLG.AX),sar,sartr,sarpos)
 colnames(sarposcomp) <-c("Close","sar","sartr","sarpos")
 View(sarposcomp)
 
 # 5.4. Average Directional Movement Index ADX(14) Trading Strategy
 # Band and Double Crossover Trading Strategy
 adxpos <- ifelse(adxtr>1,0,1)
-for(i in 1:length(Cl(.AX))){adxpos[i] <- ifelse(adxtr[i]==1,1,ifelse(adxtr[i]==-1,0,adxpos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){adxpos[i] <- ifelse(adxtr[i]==1,1,ifelse(adxtr[i]==-1,0,adxpos[i-1]))}
 adxpos[is.na(adxpos)] <- 1
 adxposcomp <- cbind(adx[,1],adx[,2],adx[,4],adxtr,adxpos)
 colnames(adxposcomp) <-c("dip","din","adx","adxtr","adxpos")
@@ -376,7 +378,7 @@ View(adxposcomp)
 # 5.5. Commodity Channel Index CCI(20,0.015) Trading Strategy
 # Bands Crossover Trading Strategy
 ccipos <- ifelse(ccitr>1,0,1)
-for(i in 1:length(Cl(.AX))){ccipos[i] <- ifelse(ccitr[i]==1,1,ifelse(ccitr[i]==-1,0,ccipos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){ccipos[i] <- ifelse(ccitr[i]==1,1,ifelse(ccitr[i]==-1,0,ccipos[i-1]))}
 ccipos[is.na(ccipos)] <- 1
 cciposcomp <- cbind(cci,ccitr,ccipos)
 colnames(cciposcomp) <-c("cci","ccitr","ccipos")
@@ -385,13 +387,13 @@ View(cciposcomp)
 # 5.6. Moving Averages Covergence/Divergence MACD(12,26,9) Trading Strategies
 # Signal and Centerline Crossover Trading Strategies
 smacdpos <- ifelse(smacdtr>1,0,1)
-for(i in 1:length(Cl(.AX))){smacdpos[i] <- ifelse(smacdtr[i]==1,1,ifelse(smacdtr[i]==-1,0,smacdpos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){smacdpos[i] <- ifelse(smacdtr[i]==1,1,ifelse(smacdtr[i]==-1,0,smacdpos[i-1]))}
 smacdpos[is.na(smacdpos)] <- 1
 smacdposcomp <- cbind(macd[,1],macd[,2],smacdtr,smacdpos)
 colnames(smacdposcomp) <-c("macd","signal","smacdtr","smacdpos")
 View(smacdposcomp)
 cmacdpos <- ifelse(cmacdtr>1,0,1)
-for(i in 1:length(Cl(.AX))){cmacdpos[i] <- ifelse(cmacdtr[i]==1,1,ifelse(cmacdtr[i]==-1,0,cmacdpos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){cmacdpos[i] <- ifelse(cmacdtr[i]==1,1,ifelse(cmacdtr[i]==-1,0,cmacdpos[i-1]))}
 cmacdpos[is.na(cmacdpos)] <- 1
 cmacdposcomp <- cbind(macd[,1],cmacdtr,cmacdpos)
 colnames(cmacdposcomp) <-c("macd","cmacdtr","cmacdpos")
@@ -400,7 +402,7 @@ View(cmacdposcomp)
 # 5.7. Rate Of Change ROC(21) Trading Strategy
 # Bands Crossover Trading Strategy
 rocpos <- ifelse(roctr>1,0,1)
-for(i in 1:length(Cl(.AX))){rocpos[i] <- ifelse(roctr[i]==1,1,ifelse(roctr[i]==-1,0,rocpos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){rocpos[i] <- ifelse(roctr[i]==1,1,ifelse(roctr[i]==-1,0,rocpos[i-1]))}
 rocpos[is.na(rocpos)] <- 1
 rocposcomp <- cbind(roc[,4],roctr,rocpos)
 colnames(rocposcomp) <-c("roc","roctr","rocpos")
@@ -409,7 +411,7 @@ View(rocposcomp)
 # 5.8. Relative Strength Index RSI(14) Trading Strategy
 # Bands Crossover Trading Strategy
 rsipos <- ifelse(rsitr>1,0,1)
-for(i in 1:length(Cl(.AX))){rsipos[i] <- ifelse(rsitr[i]==1,1,ifelse(rsitr[i]==-1,0,rsipos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){rsipos[i] <- ifelse(rsitr[i]==1,1,ifelse(rsitr[i]==-1,0,rsipos[i-1]))}
 rsipos[is.na(rsipos)] <- 1
 rsiposcomp <- cbind(rsi,rsitr,rsipos)
 colnames(rsiposcomp) <-c("rsi","rsitr","rsipos")
@@ -418,7 +420,7 @@ View(rsiposcomp)
 # 5.9. Stochastic Momentum Index SMI(13,2,25,9) Trading Strategy
 # Signal Crossover Trading Strategy
 smipos <- ifelse(smitr>1,0,1)
-for(i in 1:length(Cl(.AX))){smipos[i] <- ifelse(smitr[i]==1,1,ifelse(smitr[i]==-1,0,smipos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){smipos[i] <- ifelse(smitr[i]==1,1,ifelse(smitr[i]==-1,0,smipos[i-1]))}
 smipos[is.na(smipos)] <- 1
 smiposcomp <- cbind(smi[,1],smi[,2],smitr,smipos)
 colnames(smiposcomp) <-c("smi","signal","smitr","smipos")
@@ -427,7 +429,7 @@ View(smiposcomp)
 # 5.10. Williams %R(14) Trading Strategy
 # Bands Crossover Trading Strategy
 wprpos <- ifelse(wprtr>1,0,1)
-for(i in 1:length(Cl(.AX))){wprpos[i] <- ifelse(wprtr[i]==1,1,ifelse(wprtr[i]==-1,0,wprpos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){wprpos[i] <- ifelse(wprtr[i]==1,1,ifelse(wprtr[i]==-1,0,wprpos[i-1]))}
 wprpos[is.na(wprpos)] <- 1
 wprposcomp <- cbind(wpr,wprtr,wprpos)
 colnames(wprposcomp) <-c("wpr","wprtr","wprpos")
@@ -436,45 +438,45 @@ View(wprposcomp)
 # 5.11. Commodity Channel Index CCI(20,0.015) and Simple Moving Average SMA(5) Trading Strategy
 # Price Crossover and Bands Crossover Confirmation Trading Strategy
 ccismapos <- ifelse(ccismatr>1,0,1)
-for(i in 1:length(Cl(.AX))){ccismapos[i] <- ifelse(ccismatr[i]==1,1,ifelse(ccismatr[i]==-1,0,ccismapos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){ccismapos[i] <- ifelse(ccismatr[i]==1,1,ifelse(ccismatr[i]==-1,0,ccismapos[i-1]))}
 ccismapos[is.na(ccismapos)] <- 1
-ccismaposcomp <- cbind(Cl(.AX),sma5,cci,ccismatr,ccismapos)
+ccismaposcomp <- cbind(Cl(JLG.AX),sma5,cci,ccismatr,ccismapos)
 colnames(ccismaposcomp) <-c("Close","sma5","cci","ccismatr","ccismapos")
 View(ccismaposcomp)
 
 # 5.12. Rate Of Change ROC(21) and Simple Moving Average SMA(5) Trading Strategy
 # Price Crossover and Bands Crossover Confirmation Trading Strategy
 rocsmapos <- ifelse(rocsmatr>1,0,1)
-for(i in 1:length(Cl(.AX))){rocsmapos[i] <- ifelse(rocsmatr[i]==1,1,ifelse(rocsmatr[i]==-1,0,rocsmapos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){rocsmapos[i] <- ifelse(rocsmatr[i]==1,1,ifelse(rocsmatr[i]==-1,0,rocsmapos[i-1]))}
 rocsmapos[is.na(rocsmapos)] <- 1
-rocsmaposcomp <- cbind(Cl(.AX),sma5,roc[,4],rocsmatr,rocsmapos)
+rocsmaposcomp <- cbind(Cl(JLG.AX),sma5,roc[,4],rocsmatr,rocsmapos)
 colnames(rocsmaposcomp) <-c("Close","sma5","roc","rocsmatr","rocsmapos")
 View(rocsmaposcomp)
 
 # 5.13. Relative Strength Index RSI(14) and Simple Moving Average SMA(5) Trading Strategy
 # Price Crossover and Bands Crossover Confirmation Trading Strategy
 rsismapos <- ifelse(rsismatr>1,0,1)
-for(i in 1:length(Cl(.AX))){rsismapos[i] <- ifelse(rsismatr[i]==1,1,ifelse(rsismatr[i]==-1,0,rsismapos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){rsismapos[i] <- ifelse(rsismatr[i]==1,1,ifelse(rsismatr[i]==-1,0,rsismapos[i-1]))}
 rsismapos[is.na(rsismapos)] <- 1
-rsismaposcomp <- cbind(Cl(.AX),sma5,rsi,rsismatr,rsismapos)
+rsismaposcomp <- cbind(Cl(JLG.AX),sma5,rsi,rsismatr,rsismapos)
 colnames(rsismaposcomp) <-c("Close","sma5","rsi","rsismatr","rsismapos")
 View(rsismaposcomp)
 
 # 5.14. Stochastic Momentum Index SMI(13,2,25,9) and Simple Moving Average SMA(5) Trading Strategy
 # Price Crossover and Bands Crossover Confirmation Trading Strategy
 smismapos <- ifelse(smismatr>1,0,1)
-for(i in 1:length(Cl(.AX))){smismapos[i] <- ifelse(smismatr[i]==1,1,ifelse(smismatr[i]==-1,0,smismapos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){smismapos[i] <- ifelse(smismatr[i]==1,1,ifelse(smismatr[i]==-1,0,smismapos[i-1]))}
 smismapos[is.na(smismapos)] <- 1
-smismaposcomp <- cbind(Cl(.AX),sma5,smi[,1],smismatr,smismapos)
+smismaposcomp <- cbind(Cl(JLG.AX),sma5,smi[,1],smismatr,smismapos)
 colnames(smismaposcomp) <-c("Close","sma5","smi","smismatr","smismapos")
 View(smismaposcomp)
 
 # 5.15. Williams %R(14) and Simple Moving Average SMA(5) Trading Strategy
 # Price Crossover and Bands Crossover Confirmation Trading Strategy
 wprsmapos <- ifelse(wprsmatr>1,0,1)
-for(i in 1:length(Cl(.AX))){wprsmapos[i] <- ifelse(wprsmatr[i]==1,1,ifelse(wprsmatr[i]==-1,0,wprsmapos[i-1]))}
+for(i in 1:length(Cl(JLG.AX))){wprsmapos[i] <- ifelse(wprsmatr[i]==1,1,ifelse(wprsmatr[i]==-1,0,wprsmapos[i-1]))}
 wprsmapos[is.na(wprsmapos)] <- 1
-wprsmaposcomp <- cbind(Cl(.AX),sma5,wpr,wprsmatr,wprsmapos)
+wprsmaposcomp <- cbind(Cl(JLG.AX),sma5,wpr,wprsmatr,wprsmapos)
 colnames(wprsmaposcomp) <-c("Close","sma5","wpr","wprsmatr","wprsmapos")
 View(wprsmaposcomp)
 
@@ -484,7 +486,7 @@ View(wprsmaposcomp)
 
 # Simple Moving Averages SMA(5 & 21) Price Crossover Strategies Performance Comparison
 # Price Crossover Strategy Returns/Equity Curve
-ret <- dailyReturn(Cl(.AX),type="arithmetic")
+ret <- dailyReturn(Cl(JLG.AX),type="arithmetic")
 ret[1] <- 0
 bhstrat <- ret
 sma5strat <- ret*sma5pos
